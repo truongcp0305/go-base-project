@@ -11,6 +11,6 @@ func NewRouter(r *gin.Engine, c controller.AppController) {
 	auth := r.Group("/login")
 	auth.Use(AuthMiddleWare())
 	{
-		auth.POST("", c.User.HandleRegister)
+		auth.POST("", c.User.HandleLogin)
 	}
 }
