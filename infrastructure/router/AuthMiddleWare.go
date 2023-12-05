@@ -3,6 +3,7 @@ package router
 import (
 	"go-project/library"
 	"net/http"
+	"strings"
 
 	"github.com/gin-gonic/gin"
 	"github.com/golang-jwt/jwt"
@@ -16,7 +17,13 @@ func AuthMiddleWare() gin.HandlerFunc {
 			c.Abort()
 			return
 		}
-		token, err := jwt.Parse(tokenS, func(token *jwt.Token) (interface{}, error) {
+		parts := strings.Split(tokenS, " ")
+		if len(parts) != 2 || parts[0] != "Bearer" {
+			c.JSON(http.StatusUnauthorized, gin.H{"error": "Invalid token"})
+			c.Abort()
+			return
+		}
+		token, err := jwt.Parse(parts[1], func(token *jwt.Token) (interface{}, error) {
 			return library.GetJwtKey(), nil
 		})
 		if err != nil || !token.Valid {

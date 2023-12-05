@@ -7,7 +7,10 @@ import (
 )
 
 func NewRouter(r *gin.Engine, c controller.AppController) {
-	//r.Use(AuthMiddleWare())
-	r.GET("/login", c.User.HandleLogin)
 	r.POST("/register", c.User.HandleRegister)
+	auth := r.Group("/login")
+	auth.Use(AuthMiddleWare())
+	{
+		auth.POST("", c.User.HandleRegister)
+	}
 }
