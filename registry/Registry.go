@@ -26,5 +26,6 @@ func New(db *mongo.Collection, es *elasticsearch.TypedClient) Register {
 func (r *registry) NewAppController() controller.AppController {
 	return controller.AppController{
 		User: r.NewUserController(),
+		Cmd:  r.NewCommandController(),
 	}
 }

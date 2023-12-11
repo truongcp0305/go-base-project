@@ -10,17 +10,24 @@ import (
 )
 
 type UserController struct {
-	loginService    service.LoginService
-	registerService service.RegisterService
+	userService service.UserService
 }
 
-func NewUserController(l service.LoginService, r service.RegisterService) UserController {
+func NewUserController(us service.UserService) UserController {
 	return UserController{
-		loginService:    l,
-		registerService: r,
+		userService: us,
 	}
 }
 
+// @Summary Login
+// @Description Login to app
+// @Tags User
+// @Security BearerAuth
+// @Param Body body model.User true "query params"
+// @Success 200 {object} outgoing.LoginOutgoing
+// @Failure 400 {object} outgoing.ModelBadRequestErr
+// @Failure 500 {object} outgoing.ModelInternalErr
+// @Router /login [post]
 func (u *UserController) HandleLogin(c *gin.Context) {
 	user := model.User{}
 	if err := c.BindJSON(&user); err != nil {
@@ -31,7 +38,7 @@ func (u *UserController) HandleLogin(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"error": errors.New("Invalid params")})
 		return
 	}
-	err := u.loginService.Login(user)
+	err := u.userService.Login(user)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
@@ -39,6 +46,14 @@ func (u *UserController) HandleLogin(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"data": "ok"})
 }
 
+// @Summary Register
+// @Description Register new account
+// @Tags User
+// @Param Body body model.User true "query params"
+// @Success 200 {object} outgoing.RegisterOutgoing
+// @Failure 400 {object} outgoing.ModelBadRequestErr
+// @Failure 500 {object} outgoing.ModelInternalErr
+// @Router /register [post]
 func (u *UserController) HandleRegister(c *gin.Context) {
 	user := model.User{}
 	if err := c.BindJSON(&user); err != nil {
@@ -49,7 +64,7 @@ func (u *UserController) HandleRegister(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"error": errors.New("Invalid params")})
 		return
 	}
-	err := u.registerService.CreateAccount(&user)
+	err := u.userService.CreateAccount(&user)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return

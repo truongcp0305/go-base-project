@@ -1,0 +1,252 @@
+definitions:
+  incoming.ExcecuteScriptParams:
+    properties:
+      path:
+        example: .\script.ps1
+        type: string
+    type: object
+  incoming.GetFileParams:
+    properties:
+      path:
+        example: .\script.ps1
+        type: string
+    type: object
+  incoming.KillProcessParams:
+    properties:
+      name:
+        example: notepad.exe
+        type: string
+      pId:
+        example: "12345"
+        type: string
+    type: object
+  model.User:
+    properties:
+      displayName:
+        example: "456"
+        type: string
+      password:
+        example: "1234"
+        type: string
+      token:
+        example: ""
+        type: string
+      userName:
+        example: truong
+        type: string
+    type: object
+  outgoing.ExecuteScriptOutgoing:
+    properties:
+      data:
+        example: excute done!
+        type: string
+    type: object
+  outgoing.KillProcessOutgoing:
+    properties:
+      data:
+        example: process killed!
+        type: string
+    type: object
+  outgoing.ListProcessOutgoing:
+    properties:
+      data:
+        example: notepad.exe      1021
+        type: string
+    type: object
+  outgoing.LoginOutgoing:
+    properties:
+      data:
+        example: ok
+        type: string
+    type: object
+  outgoing.ModelBadRequestErr:
+    properties:
+      error:
+        example: Invalid query params
+        type: string
+    type: object
+  outgoing.ModelInternalErr:
+    properties:
+      error:
+        example: Internal sever error
+        type: string
+    type: object
+  outgoing.OpenFileFailedOutgoing:
+    properties:
+      data:
+        example: cannot find file with path
+        type: string
+    type: object
+  outgoing.OpenFileSucessOutgoing:
+    properties:
+      data:
+        example: opening file
+        type: string
+    type: object
+  outgoing.RegisterOutgoing:
+    properties:
+      data:
+        $ref: '#/definitions/model.User'
+    type: object
+host: localhost:1234
+info:
+  contact: {}
+  description: This is a sample server for Base go API.
+  title: Base Go API
+  version: "1.0"
+paths:
+  /cmd/execute-script:
+    post:
+      description: Execute command line in a text script file
+      parameters:
+      - description: query params
+        in: body
+        name: Body
+        required: true
+        schema:
+          $ref: '#/definitions/incoming.ExcecuteScriptParams'
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/outgoing.ExecuteScriptOutgoing'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/outgoing.ModelBadRequestErr'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/outgoing.ModelInternalErr'
+      summary: Execute Script
+      tags:
+      - Command
+  /cmd/kill-process:
+    post:
+      description: Kill a process is runing
+      parameters:
+      - description: query params
+        in: body
+        name: Body
+        required: true
+        schema:
+          $ref: '#/definitions/incoming.KillProcessParams'
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/outgoing.KillProcessOutgoing'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/outgoing.ModelBadRequestErr'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/outgoing.ModelInternalErr'
+      summary: Kill Process
+      tags:
+      - Command
+  /cmd/list-process:
+    get:
+      description: Get all process runing in computer
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/outgoing.ListProcessOutgoing'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/outgoing.ModelInternalErr'
+      summary: List Process
+      tags:
+      - Command
+  /cmd/open-file:
+    post:
+      description: Find and open file by path
+      parameters:
+      - description: query params
+        in: body
+        name: Body
+        required: true
+        schema:
+          $ref: '#/definitions/incoming.GetFileParams'
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/outgoing.OpenFileSucessOutgoing'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/outgoing.ModelBadRequestErr'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/outgoing.OpenFileFailedOutgoing'
+      summary: Find File
+      tags:
+      - Command
+  /login:
+    post:
+      description: Login to app
+      parameters:
+      - description: query params
+        in: body
+        name: Body
+        required: true
+        schema:
+          $ref: '#/definitions/model.User'
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/outgoing.LoginOutgoing'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/outgoing.ModelBadRequestErr'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/outgoing.ModelInternalErr'
+      security:
+      - BearerAuth: []
+      summary: Login
+      tags:
+      - User
+  /register:
+    post:
+      description: Register new account
+      parameters:
+      - description: query params
+        in: body
+        name: Body
+        required: true
+        schema:
+          $ref: '#/definitions/model.User'
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/outgoing.RegisterOutgoing'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/outgoing.ModelBadRequestErr'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/outgoing.ModelInternalErr'
+      summary: Register
+      tags:
+      - User
+schemes:
+- http
+securityDefinitions:
+  BearerAuth:
+    in: header
+    name: Authorization
+    type: apiKey
+swagger: "2.0"
