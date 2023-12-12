@@ -20,7 +20,7 @@ pipeline {
             steps {
                 script {
                     //sh 'export PATH=$PATH:/usr/local/go/bin'
-                    sh "go version"
+                    //sh "go version"
                     sh "go build -o ${APP_NAME}"
                 }
             }
