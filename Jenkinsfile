@@ -1,5 +1,9 @@
 pipeline {
-    agent any
+    agent {
+        docker {
+            image 'golang:1.21'
+        }
+    }
 
     environment {
         GO_VERSION = '1.21'
@@ -19,6 +23,7 @@ pipeline {
         stage('Build') {
             steps {
                 script {
+                    sh 'export PATH=$PATH:/usr/local/go/bin'
                     sh "go version"
                     sh "go build -o ${APP_NAME}"
                 }
