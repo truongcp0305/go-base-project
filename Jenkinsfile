@@ -1,9 +1,5 @@
 pipeline {
-    agent {
-        docker {
-            image 'golang:1.21'
-        }
-    }
+    agent any
 
     environment {
         GO_VERSION = '1.21'
