@@ -1,6 +1,6 @@
 pipeline {
     agent any
-
+    tools { go '1.19' }
     environment {
         GO_VERSION = '1.19'
         APP_NAME = 'go-base-project'
