@@ -30,7 +30,8 @@ pipeline {
         stage('Deploy') {
             steps {
                 script {
-                    sh "./${APP_NAME} &"
+                    //sh "./${APP_NAME} &"
+                    sh "kubectl apply -f k8s/app_deployment.yaml"
                 }
             }
         }
