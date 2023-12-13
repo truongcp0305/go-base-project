@@ -29,17 +29,8 @@ pipeline {
 
         stage('Deploy') {
             steps {
-                // script {
-                //     sh "./${APP_NAME}"
-                // }
-                script{
-                    def result = sh(script: "nohup ./${APP_NAME} &", returnStatus: true)
-                    if(result == 0) {
-                        currentBuild.result = 'SUCCESS'
-                    }else{
-                        currentBuild.result = 'FAILURE'
-                        error "Deploy failed"
-                    }
+                script {
+                    sh "./${APP_NAME} &"
                 }
             }
         }
