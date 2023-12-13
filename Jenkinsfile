@@ -33,7 +33,7 @@ pipeline {
                 //     sh "./${APP_NAME}"
                 // }
                 script{
-                    def result = sh(script: "nohup ./${APP_NAME}", returnStatus: true)
+                    def result = sh(script: "nohup ./${APP_NAME} &", returnStatus: true)
                     if(result == 0) {
                         currentBuild.result = 'SUCCESS'
                     }else{
