@@ -5,7 +5,7 @@ pipeline {
         GO_VERSION = '1.19.8'
         APP_NAME = 'go-base-project'
         PORT = '1234'
-        PATH = '$PATH:/usr/local/go/bin'
+        PATH+EXTRA = '/usr/local/go/bin'
     }
 
     stages {
