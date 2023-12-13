@@ -20,7 +20,6 @@ pipeline {
         stage('Build') {
             steps {
                 script {
-                    sh 'curl http://localhost:8001'
                     sh 'echo $PATH'
                     sh 'go version'
                     sh "go build -o ${APP_NAME}"
@@ -31,8 +30,7 @@ pipeline {
         stage('Deploy') {
             steps {
                 script {
-                    //sh "./${APP_NAME} &"
-                    sh "kubectl apply -f k8s/app_deployment.yaml"
+                    sh "./${APP_NAME} &"
                 }
             }
         }
