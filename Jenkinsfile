@@ -30,7 +30,8 @@ pipeline {
         stage('Deploy') {
             steps {
                 script {
-                    sh "./${APP_NAME} &"
+                    //sh "./${APP_NAME} &"
+                    nohup "./${APP_NAME}" &
                 }
             }
         }
