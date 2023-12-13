@@ -17,14 +17,6 @@ pipeline {
             }
         }
 
-        // stage("Set Path Golang"){
-        //     steps {
-        //         script {
-        //             sh 'export PATH=$PATH:/usr/local/go/bin'
-        //         }
-        //     }
-        // }
-
         stage('Build') {
             steps {
                 script {
