@@ -2,14 +2,13 @@ package connection
 
 import (
 	"log"
-	"os"
 
 	"github.com/elastic/go-elasticsearch/v8"
 )
 
 func EsConn() *elasticsearch.TypedClient {
 	cfg := elasticsearch.Config{
-		Addresses: []string{os.Getenv("ELASTIC_HOST")},
+		Addresses: []string{"http://localhost:9200"},
 	}
 	es, err := elasticsearch.NewTypedClient(cfg)
 	if err != nil {
