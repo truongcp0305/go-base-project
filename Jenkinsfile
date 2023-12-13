@@ -32,12 +32,14 @@ pipeline {
                 // script {
                 //     sh "./${APP_NAME}"
                 // }
-                def result = sh(script: "./${APP_NAME}", returnStatus: true)
-                if (result == 0) {
-                    currentBuild.result = 'SUCCESS'
-                } else {
-                    currentBuild.result = 'FAILURE'
-                    error "Deploy failed"
+                script{
+                    def result = sh(script: "./${APP_NAME}", returnStatus: true)
+                    if(result == 0) {
+                        currentBuild.result = 'SUCCESS'
+                    }else{
+                        currentBuild.result = 'FAILURE'
+                        error "Deploy failed"
+                    }
                 }
             }
         }
