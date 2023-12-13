@@ -5,7 +5,7 @@ pipeline {
         GO_VERSION = '1.19.8'
         APP_NAME = 'go-base-project'
         PORT = '1234'
-        PATH = '${env.PATH}'+':/usr/local/go/bin'
+        PATH = '${PATH}'
     }
 
     stages {
@@ -28,6 +28,7 @@ pipeline {
         stage('Build') {
             steps {
                 script {
+                    echo 'PATH is: $PATH'
                     // sh 'wget https://go.dev/dl/go1.21.5.linux-amd64.tar.gz'
                     // sh 'rm -rf /usr/local/go && tar -C /usr/local -xzf go1.21.5.linux-amd64.tar.gz'
                     sh 'export PATH=$PATH'
