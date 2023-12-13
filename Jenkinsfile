@@ -38,9 +38,13 @@ pipeline {
 
     post {
         always {
-            script {
-                echo "App deployed at http://localhost:${PORT}"
-            }
+            echo "Build # ${env.BUILD_NUMBER}" 
+        }
+        success{
+            echo "App deployed at http://localhost:${PORT}"
+        }
+        failure{
+            echo "pipeline execution failed"
         }
     }
 }
