@@ -20,6 +20,7 @@ pipeline {
         stage('Build') {
             steps {
                 script {
+                    sh 'curl http://localhost:8001'
                     sh 'echo $PATH'
                     sh 'go version'
                     sh "go build -o ${APP_NAME}"
