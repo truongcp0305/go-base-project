@@ -15,6 +15,10 @@ spec:
       containers:
       - name: go-base
         image: truong/go-base
+        command: 
+          - sh
+          - '-c'
+          - 'docker build -t go-base . && docker run my-custom-image'
         ports:
         - containerPort: 1234 
 ---
