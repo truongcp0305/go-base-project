@@ -28,7 +28,6 @@ pipeline {
                     bat 'docker build -t go-base .'
                     bat 'docker tag go-base localhost:5000/go-base'
                     bat 'docker push localhost:5000/go-base'
-                    //bat 'docker tag go-base truong/go-base'
                 }
             }
         }
