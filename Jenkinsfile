@@ -23,8 +23,10 @@ pipeline {
                 script {
                     echo "stage build"
                     //sh 'echo $PATH'
-                    sh 'go version'
+                    //sh 'go version'
                     //sh "go build -o ${APP_NAME}"
+                    bat 'go version'
+                    bat 'go build -o ${APP_NAME}'
                 }
             }
         }
@@ -32,7 +34,8 @@ pipeline {
         stage('Deploy') {
             steps {
                 script {
-                    sh "./${APP_NAME} &"
+                    //sh "./${APP_NAME} &"
+                    bat 'go run main.go'
                 }
             }
         }
