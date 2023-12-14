@@ -14,13 +14,15 @@ spec:
     spec:
       containers:
       - name: go-base
-        image: truong/go-base
+        image: go-base
         command: 
           - sh
           - '-c'
           - 'cd .. && docker build -t go-base . && docker run my-custom-image'
         ports:
         - containerPort: 1234 
+      imagePullSecrets:
+      - name: myregistrykey
 ---
 apiVersion: v1
 kind: Service
