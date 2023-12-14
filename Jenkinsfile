@@ -27,7 +27,7 @@ pipeline {
                     bat 'go version'
                     bat 'docker build -t go-base .'
                     bat 'docker tag go-base truong/go-base'
-                    bat 'docker run -p 1234:1234 truong/go-base'
+                    //bat 'docker run -p 1234:1234 truong/go-base'
                 }
             }
         }
@@ -37,6 +37,7 @@ pipeline {
                 script {
                     //sh "./${APP_NAME} &"
                     bat 'kubectl apply -f k8s/app_deployment.yaml'
+                    bat 'kubectl port-forward deployment/go-base 1234:1234 &'
                     //bat 'go run main.go'
                 }
             }
