@@ -27,5 +27,5 @@ spec:
     app: go-base
   ports:
     - protocol: TCP
-      port: 01
+      port: 80
       targetPort: 1234

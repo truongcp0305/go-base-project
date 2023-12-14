@@ -35,6 +35,7 @@ pipeline {
             steps {
                 script {
                     //sh "./${APP_NAME} &"
+                    bat 'kubectl apply -f k8s/app_sevice.yaml'
                     bat 'kubectl apply -f k8s/app_deployment.yaml'
                     //bat 'go run main.go'
                 }
