@@ -5,7 +5,7 @@ pipeline {
         GO_VERSION = '1.19.8'
         APP_NAME = 'go-base-project'
         PORT = '1234'
-        PATH = '/usr/local/go/bin:$PATH'
+        PATH = "/usr/local/go/bin:$PATH"
         KUBECONFIG = 'C:/Users/ASUS/.kube/config'
     }
 
@@ -25,7 +25,7 @@ pipeline {
                     //sh 'go version'
                     //sh "go build -o ${APP_NAME}"
                     //bat 'kubectl config get-contexts'
-                    sh 'go version'
+                    bat 'go version'
                     // bat 'docker build -t truong/go-base .'
                     //bat 'go build -o ${APP_NAME}'
                 }
