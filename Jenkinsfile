@@ -26,7 +26,6 @@ pipeline {
                     //sh "go build -o ${APP_NAME}"
                     bat 'go version'
                     bat 'docker build -t go-base .'
-                    bat 'docker image rm localhost:5000/go-base'
                     bat 'docker tag go-base localhost:5000/go-base'
                     bat 'docker push localhost:5000/go-base'
                 }
