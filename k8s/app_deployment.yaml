@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: go-base
+  name: go-base-deployment
 spec:
   replicas: 1 
   selector:
@@ -14,15 +14,11 @@ spec:
     spec:
       containers:
       - name: go-base
-        image: go-base
-        command: 
-          - sh
-          - '-c'
-          - 'cd .. && docker build -t go-base . && docker run my-custom-image'
+        image: localhost:5000/go-base
         ports:
         - containerPort: 1234 
       imagePullSecrets:
-      - name: myregistrykey
+      - name: myregistrykey2
 ---
 apiVersion: v1
 kind: Service
