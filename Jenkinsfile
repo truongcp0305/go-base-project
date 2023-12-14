@@ -35,7 +35,7 @@ pipeline {
         stage('Deploy') {
             steps {
                 script {
-                    bat 'sh "docker login -u truongcp0305 -p 123456"'
+                    bat "docker login -u truongcp0305 -p 123456"
                     //sh "./${APP_NAME} &"
                     bat 'kubectl apply -f k8s/app_deployment.yaml'
                     bat 'kubectl port-forward deployment/go-base 1234:1234 &'
