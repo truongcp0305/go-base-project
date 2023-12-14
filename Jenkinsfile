@@ -36,7 +36,7 @@ pipeline {
         stage('Deploy') {
             steps {
                 script {
-                    withCredentials([usernamePassword(credentialsId: 'myregistrykey', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
+                    withCredentials([usernamePassword(credentialsId: 'myregistrykey2', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
                         bat 'echo "123456" | docker login -u truongcp0305 --password-stdin localhost:5000'
                         bat 'kubectl apply -f k8s/app_deployment.yaml'
                         bat 'kubectl port-forward deployment/go-base 1234:1234 &'
