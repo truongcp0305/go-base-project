@@ -12,6 +12,7 @@ pipeline {
         stage('Checkout') {
             steps {
                 script {
+                    echo "stage check out"
                     git 'https://github.com/truongcp0305/go-base-project'
                 }
             }
@@ -20,6 +21,7 @@ pipeline {
         stage('Build') {
             steps {
                 script {
+                    echo "stage build"
                     sh 'echo $PATH'
                     sh 'go version'
                     sh "go build -o ${APP_NAME}"
