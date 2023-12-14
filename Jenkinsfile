@@ -22,7 +22,7 @@ pipeline {
             steps {
                 script {
                     echo "stage build"
-                    sh 'echo $PATH'
+                    //sh 'echo $PATH'
                     sh 'go version'
                     //sh "go build -o ${APP_NAME}"
                 }
