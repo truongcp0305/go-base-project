@@ -13,7 +13,7 @@ spec:
         app: go-base
     spec:
       containers:
-      - name: go-cont
+      - name: go-base
         image: truong/go-base
         ports:
         - containerPort: 1234 
