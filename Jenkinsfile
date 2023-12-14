@@ -23,7 +23,7 @@ pipeline {
                     //sh 'echo $PATH'
                     //sh 'go version'
                     //sh "go build -o ${APP_NAME}"
-                    bat 'kubectl version'
+                    bat 'kubectl get nodes'
                     bat 'go version'
                     bat 'docker build -t truong/go-base .'
                     //bat 'go build -o ${APP_NAME}'
