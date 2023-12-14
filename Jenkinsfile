@@ -26,7 +26,6 @@ pipeline {
                     //sh "go build -o ${APP_NAME}"
                     bat 'go version'
                     bat 'docker build -t go-base .'
-                    //bat 'docker push go-base'
                     //bat 'docker tag go-base truong/go-base'
                 }
             }
@@ -35,10 +34,12 @@ pipeline {
         stage('Deploy') {
             steps {
                 script {
-                    bat "docker login -u truongcp0305 -p 123456"
+                    withCredentials([usernamePassword(credentialsId: 'myregistrykey', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
+                        bat 'echo "123456" | docker login -u truongcp0305 --password-stdin'
+                        bat 'kubectl apply -f k8s/app_deployment.yaml'
+                        bat 'kubectl port-forward deployment/go-base 1234:1234 &'
+                    }
                     //sh "./${APP_NAME} &"
-                    bat 'kubectl apply -f k8s/app_deployment.yaml'
-                    bat 'kubectl port-forward deployment/go-base 1234:1234 &'
                     //bat 'go run main.go'
                 }
             }
