@@ -23,8 +23,10 @@ pipeline {
                     //sh 'echo $PATH'
                     //sh 'go version'
                     //sh "go build -o ${APP_NAME}"
+                    bat 'kubectl version'
                     bat 'go version'
-                    bat 'go build -o ${APP_NAME}'
+                    bat 'docker build -t truong/go-base .'
+                    //bat 'go build -o ${APP_NAME}'
                 }
             }
         }
@@ -33,7 +35,6 @@ pipeline {
             steps {
                 script {
                     //sh "./${APP_NAME} &"
-                    bat 'docker build -t truong/go-base .'
                     bat 'kubectl apply -f k8s/app_deployment.yaml'
                     //bat 'go run main.go'
                 }
