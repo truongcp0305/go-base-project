@@ -27,7 +27,6 @@ pipeline {
                     bat 'go version'
                     bat 'docker build -t go-base .'
                     bat 'docker tag go-base truong/go-base'
-                    //bat 'docker run -p 1234:1234 truong/go-base'
                 }
             }
         }
