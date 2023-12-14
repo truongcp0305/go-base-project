@@ -6,7 +6,7 @@ pipeline {
         APP_NAME = 'go-base-project'
         PORT = '1234'
         PATH = "/usr/local/go/bin:$PATH"
-        KUBECONFIG = 'C:\Users\ASUS\.kube\config'
+        KUBECONFIG = 'C:/Users/ASUS/.kube/config'
     }
 
     stages {
