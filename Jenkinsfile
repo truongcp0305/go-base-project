@@ -36,7 +36,7 @@ pipeline {
                 script {
                     //sh "./${APP_NAME} &"
                     bat 'kubectl apply -f k8s/app_deployment.yaml'
-                    bat 'kubectl port-forward deployment/go-base 1234:1234 &'
+                    //bat 'kubectl port-forward deployment/go-base 1234:1234 &'
                     //bat 'go run main.go'
                 }
             }
