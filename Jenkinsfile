@@ -71,6 +71,9 @@ pipeline {
                     def os = checkOs()
                     if (os == "Windows"){
                         def v = "${env.BUILD_NUMBER} "
+                        bat '''
+                            set /p="(Get-Content app_deployment.yaml) | ForEach-Object { $_ -replace "{BUILD_NUMBER}", \${env.BUILD_NUMBER} } | Set-Content app_deployment2.yaml" <nul >> makefile.ps1
+                        '''
                         bat 'set /p="(Get-Content app_deployment.yaml) | ForEach-Object { $_ -replace "{BUILD_NUMBER}"," <nul >> makefile.ps1'
                         bat "set /p="${v}" <nul >> makefile.ps1" 
                         bat 'set /p="} | Set-Content app_deployment2.yaml" <nul >> makefile.ps1'
