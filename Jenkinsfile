@@ -70,11 +70,12 @@ pipeline {
                 script {
                     def os = checkOs()
                     if (os == "Windows"){
-                        def v = "${env.BUILD_NUMBER} ^| Set-Content k8s\app_deployment2.yaml"
+                        def v = "${env.BUILD_NUMBER} "
                         withCredentials([usernamePassword(credentialsId: 'myregistrykey2', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
                             bat 'echo $PASSWORD | docker login -u $USERNAME --password-stdin localhost:5000'
                             bat 'echo (Get-Content k8s\app_deployment.yaml) ^| ForEach-Object { $_ -replace "{BUILD_NUMBER}", "> makefile.ps1'
                             bat "set /p=${v} <nul >> makefile.ps1" 
+                            bat 'set /p=^| Set-Content k8s\app_deployment2.yaml <nul >> makefile.ps1'
                             bat "powershell -ExecutionPolicy Bypass -File script.ps1"
                             bat "kubectl apply -f k8s/app_deployment2.yaml"
                         }
