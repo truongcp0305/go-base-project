@@ -41,18 +41,19 @@ pipeline {
         //     }
         // }
 
-    //     stage('Deploy') {
-    //         steps {
-    //             script {
-    //                 withCredentials([usernamePassword(credentialsId: 'myregistrykey2', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
-    //                     bat 'echo $PASSWORD | docker login -u $USERNAME --password-stdin localhost:5000'
-    //                     bat "kubectl apply -f k8s/app_deployment.yaml"
-    //                 }
-    //                 //sh "./${APP_NAME} &"
-    //             }
-    //         }
-    //     }
-    // }
+        // stage('Deploy') {
+        //     steps {
+        //         script {
+        //             withCredentials([usernamePassword(credentialsId: 'myregistrykey2', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
+        //                 bat 'echo $PASSWORD | docker login -u $USERNAME --password-stdin localhost:5000'
+        //                 bat "kubectl apply -f k8s/app_deployment.yaml"
+        //             }
+        //             //sh "./${APP_NAME} &"
+        //         }
+        //     }
+        // }
+    }
+
 
     post {
         always {
