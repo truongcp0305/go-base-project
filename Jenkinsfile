@@ -43,27 +43,27 @@ pipeline {
         }
 
         // stage('Build') {
-        //     steps {
-        //         script {
-        //             def os = checkOs()
+            steps {
+                script {
+                    def os = checkOs()
                     
-        //             if (os == 'Windows'){
-        //                 bat 'go version'
-        //                 bat "docker build -t ${APP_NAME} ."
-        //                 bat "docker tag ${APP_NAME} localhost:5000/${APP_NAME}:${env.BUILD_NUMBER}"
-        //                 bat "docker push localhost:5000/${APP_NAME}:${env.BUILD_NUMBER}"
-        //             }else if (os == 'Linux'){
-        //                 sh 'echo $PATH'
-        //                 sh 'go version'
-        //                 sh "docker build -t ${APP_NAME} ."
-        //                 sh "docker tag ${APP_NAME} localhost:5000/${APP_NAME}:${env.BUILD_NUMBER}"
-        //                 sh "docker push localhost:5000/${APP_NAME}:${env.BUILD_NUMBER}"
-        //             }else{
-        //                 echo "OS not supported"
-        //             }
-        //         }
-        //     }
-        // }
+                    if (os == 'Windows'){
+                        bat 'go version'
+                        bat "docker build -t ${APP_NAME} ."
+                        bat "docker tag ${APP_NAME} localhost:5000/${APP_NAME}:${env.BUILD_NUMBER}"
+                        bat "docker push localhost:5000/${APP_NAME}:${env.BUILD_NUMBER}"
+                    }else if (os == 'Linux'){
+                        sh 'echo $PATH'
+                        sh 'go version'
+                        sh "docker build -t ${APP_NAME} ."
+                        sh "docker tag ${APP_NAME} localhost:5000/${APP_NAME}:${env.BUILD_NUMBER}"
+                        sh "docker push localhost:5000/${APP_NAME}:${env.BUILD_NUMBER}"
+                    }else{
+                        echo "OS not supported"
+                    }
+                }
+            }
+        }
 
         stage('Deploy') {
             steps {
@@ -71,9 +71,6 @@ pipeline {
                     def os = checkOs()
                     if (os == "Windows"){
                         def v = "${env.BUILD_NUMBER} "
-                        bat '''
-                            set /p="(Get-Content app_deployment.yaml) | ForEach-Object { $_ -replace "{BUILD_NUMBER}", \${env.BUILD_NUMBER} } | Set-Content app_deployment2.yaml" <nul >> makefile.ps1
-                        '''
                         bat 'set /p="(Get-Content app_deployment.yaml) | ForEach-Object { $_ -replace "{BUILD_NUMBER}"," <nul >> makefile.ps1'
                         bat "set /p="${v}" <nul >> makefile.ps1" 
                         bat 'set /p="} | Set-Content app_deployment2.yaml" <nul >> makefile.ps1'
