@@ -42,28 +42,28 @@ pipeline {
             }
         }
 
-        stage('Build') {
-            steps {
-                script {
-                    def os = checkOs()
+        // stage('Build') {
+        //     steps {
+        //         script {
+        //             def os = checkOs()
                     
-                    if (os == 'Windows'){
-                        bat 'go version'
-                        bat "docker build -t ${APP_NAME} ."
-                        bat "docker tag ${APP_NAME} localhost:5000/${APP_NAME}:${env.BUILD_NUMBER}"
-                        bat "docker push localhost:5000/${APP_NAME}:${env.BUILD_NUMBER}"
-                    }else if (os == 'Linux'){
-                        sh 'echo $PATH'
-                        sh 'go version'
-                        sh "docker build -t ${APP_NAME} ."
-                        sh "docker tag ${APP_NAME} localhost:5000/${APP_NAME}:${env.BUILD_NUMBER}"
-                        sh "docker push localhost:5000/${APP_NAME}:${env.BUILD_NUMBER}"
-                    }else{
-                        echo "OS not supported"
-                    }
-                }
-            }
-        }
+        //             if (os == 'Windows'){
+        //                 bat 'go version'
+        //                 bat "docker build -t ${APP_NAME} ."
+        //                 bat "docker tag ${APP_NAME} localhost:5000/${APP_NAME}:${env.BUILD_NUMBER}"
+        //                 bat "docker push localhost:5000/${APP_NAME}:${env.BUILD_NUMBER}"
+        //             }else if (os == 'Linux'){
+        //                 sh 'echo $PATH'
+        //                 sh 'go version'
+        //                 sh "docker build -t ${APP_NAME} ."
+        //                 sh "docker tag ${APP_NAME} localhost:5000/${APP_NAME}:${env.BUILD_NUMBER}"
+        //                 sh "docker push localhost:5000/${APP_NAME}:${env.BUILD_NUMBER}"
+        //             }else{
+        //                 echo "OS not supported"
+        //             }
+        //         }
+        //     }
+        // }
 
         stage('Deploy') {
             steps {
@@ -73,10 +73,10 @@ pipeline {
                         def v = "${env.BUILD_NUMBER} "
                         withCredentials([usernamePassword(credentialsId: 'myregistrykey2', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
                             bat 'echo $PASSWORD | docker login -u $USERNAME --password-stdin localhost:5000'
-                            bat 'echo (Get-Content app_deployment.yaml) ^| ForEach-Object { $_ -replace "{BUILD_NUMBER}", "> makefile.ps1'
-                            bat "set /p=${v} <nul >> makefile.ps1" 
+                            bat 'set /p=(Get-Content app_deployment.yaml) ^| ForEach-Object { $_ -replace "{BUILD_NUMBER}", <nul >> makefile.ps1'
+                            bat "set /p=${v}} <nul >> makefile.ps1" 
                             bat 'set /p=^| Set-Content app_deployment2.yaml <nul >> makefile.ps1'
-                            bat "powershell -ExecutionPolicy Bypass -File script.ps1"
+                            bat "powershell -ExecutionPolicy Bypass -File makefile.ps1"
                             bat "kubectl apply -f app_deployment2.yaml"
                         }
                     }else if (os == "Linux"){
