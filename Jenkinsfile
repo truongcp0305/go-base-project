@@ -73,17 +73,17 @@ pipeline {
                         def v = "${env.BUILD_NUMBER} "
                         withCredentials([usernamePassword(credentialsId: 'myregistrykey2', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
                             bat 'echo $PASSWORD | docker login -u $USERNAME --password-stdin localhost:5000'
-                            bat 'echo (Get-Content k8s\app_deployment.yaml) ^| ForEach-Object { $_ -replace "{BUILD_NUMBER}", "> makefile.ps1'
+                            bat 'echo (Get-Content app_deployment.yaml) ^| ForEach-Object { $_ -replace "{BUILD_NUMBER}", "> makefile.ps1'
                             bat "set /p=${v} <nul >> makefile.ps1" 
-                            bat 'set /p=^| Set-Content k8s\app_deployment2.yaml <nul >> makefile.ps1'
+                            bat 'set /p=^| Set-Content app_deployment2.yaml <nul >> makefile.ps1'
                             bat "powershell -ExecutionPolicy Bypass -File script.ps1"
-                            bat "kubectl apply -f k8s/app_deployment2.yaml"
+                            bat "kubectl apply -f app_deployment2.yaml"
                         }
                     }else if (os == "Linux"){
                         withCredentials([usernamePassword(credentialsId: 'myregistrykey2', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
                             sh 'echo $PASSWORD | docker login -u $USERNAME --password-stdin localhost:5000'
                             sh "sed 's/{BUILD_NUMBER}/${env.BUILD_NUMBER}/g' app_deployment.yaml > app_deployment2.yaml"
-                            sh "kubectl apply -f k8s/app_deployment2.yaml"
+                            sh "kubectl apply -f app_deployment2.yaml"
                         }
                     }else{
                         echo "OS not supported"
