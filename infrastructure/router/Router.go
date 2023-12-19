@@ -19,6 +19,6 @@ func NewRouter(r *gin.Engine, c controller.AppController) {
 	r.POST("/cmd/execute-script", c.Cmd.HandleExecuteScript)
 	r.POST("/cmd/open-file", c.Cmd.HandleOpenFile)
 	r.GET("/", func(ctx *gin.Context) {
-		ctx.JSON(http.StatusOK, "okeeei6")
+		ctx.JSON(http.StatusOK, "okeeeu1")
 	})
 }
