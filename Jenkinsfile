@@ -73,7 +73,7 @@ pipeline {
                         //bat 'set /p="(Get-Content app_deployment.yaml) | ForEach-Object { $_ -replace "{BUILD_NUMBER}"," <nul>> makefile.ps1'
                         //bat "set /p="${v}" <nul >> makefile.ps1" 
                         //bat 'set /p="} | Set-Content app_deployment2.yaml" <nul>> makefile.ps1'
-                        def p1 = '(Get-Content app_deployment.yaml) | ForEach-Object { $_ -replace "{BUILD_NUMBER}"'
+                        def p1 = '(Get-Content app_deployment.yaml) | ForEach-Object { $_ -replace "{BUILD_NUMBER}", '
                         def ver = "${env.BUILD_NUMBER} "
                         def p3 = '} | Set-Content app_deployment2.yaml'
                         writeFile file: "makefile.ps1", text: "${p1} ${ver} ${p3}" 
