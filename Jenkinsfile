@@ -70,14 +70,13 @@ pipeline {
                 script {
                     def os = checkOs()
                     if (os == "Windows"){
-                        def p1 = '(Get-Content app_deployment.yaml) | ForEach-Object { $_ -replace "{BUILD_NUMBER}"'
-                        def ver = "${env.BUILD_NUMBER} "
-                        def p3 = '} | Set-Content app_deployment2.yaml'
-                        writeFile file: "makefile.ps1" 
                         //bat 'set /p="(Get-Content app_deployment.yaml) | ForEach-Object { $_ -replace "{BUILD_NUMBER}"," <nul>> makefile.ps1'
                         //bat "set /p="${v}" <nul >> makefile.ps1" 
                         //bat 'set /p="} | Set-Content app_deployment2.yaml" <nul>> makefile.ps1'
-                        bat "echo ${p1} ${ver} ${p3} > makefile.ps1" 
+                        def p1 = '(Get-Content app_deployment.yaml) | ForEach-Object { $_ -replace "{BUILD_NUMBER}"'
+                        def ver = "${env.BUILD_NUMBER} "
+                        def p3 = '} | Set-Content app_deployment2.yaml'
+                        writeFile file: "makefile.ps1", text: "${p1} ${ver} ${p3}" 
                         bat "powershell -ExecutionPolicy Bypass -File makefile.ps1"
                         withCredentials([usernamePassword(credentialsId: 'myregistrykey2', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
                             bat 'echo $PASSWORD | docker login -u $USERNAME --password-stdin localhost:5000'
