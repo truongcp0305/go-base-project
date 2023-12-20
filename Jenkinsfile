@@ -84,7 +84,7 @@ pipeline {
                         sh 'eval $(minikube docker-env)'
                         withCredentials([usernamePassword(credentialsId: 'myregistrykey2', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
                             sh 'echo $PASSWORD | docker login -u $USERNAME --password-stdin localhost:5000'
-                            sh "kubectl apply -f app_deployment2.yaml --validate=false"
+                            sh "kubectl apply -f app_deployment2.yaml"
                         }
                     }else{
                         echo "OS not supported"
