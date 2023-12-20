@@ -59,9 +59,9 @@ pipeline {
                         sh "docker build -t ${APP_NAME} ."
                         sh "docker tag ${APP_NAME} localhost:5000/${APP_NAME}:${env.BUILD_NUMBER}"
                         sh "docker push localhost:5000/${APP_NAME}:${env.BUILD_NUMBER}"
-                        sh 'minikube start'
-                        sh "minikube image load localhost:5000/${APP_NAME}:${env.BUILD_NUMBER}}"
-                        sh 'minikube profile list'
+                        // sh 'minikube start'
+                        // sh "minikube image load localhost:5000/${APP_NAME}:${env.BUILD_NUMBER}}"
+                        // sh 'minikube profile list'
                     }else{
                         echo "OS not supported"
                     }
