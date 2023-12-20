@@ -89,6 +89,10 @@ pipeline {
                             sh 'echo $PASSWORD | docker login -u $USERNAME --password-stdin localhost:5000'
                             sh "kubectl apply -f app_deployment2.yaml"
                         }
+                        sh 'kubectl get nodes'
+                        sh 'kubectl get pods'
+                        sh 'kubectl get deploy'
+                        sh 'kubectl version'
                     }else{
                         echo "OS not supported"
                     }
