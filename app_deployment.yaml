@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: go-base
-        image: 192.168.59.100:5000/go-base:2
+        image: 192.168.59.100:5000/go-base:{BUILD_NUMBER}
         ports:
         - containerPort: 1234 
       imagePullSecrets:
