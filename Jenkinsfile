@@ -22,6 +22,7 @@ pipeline {
         PORT = '1234'
         PATH = "/usr/local/go/bin:$PATH"
         KUBECONFIG = '~/.kube/config'
+        NAMESPACE ='go-lang'
     }
 
     stages {
@@ -80,15 +81,16 @@ pipeline {
                             bat "kubectl apply -f app_deployment2.yaml"
                         }
                     }else if (os == "Linux"){
-                        sh "sed 's/{BUILD_NUMBER}/${env.BUILD_NUMBER}/g' app_deployment.yaml > app_deployment2.yaml"
-                        withCredentials([usernamePassword(credentialsId: 'myregistrykey2', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
-                            sh 'echo $PASSWORD | docker login -u $USERNAME --password-stdin localhost:5000'
-                            sh "kubectl apply -f app_deployment2.yaml"
-                        }
                         sh 'kubectl get nodes'
                         sh 'kubectl get pods'
                         sh 'kubectl get deploy'
                         sh 'kubectl version'
+                        def kubectlCmd = "kubectl --kubeconfig=${KUBECONFIG} --namespace=${NAMESPACE}"
+                        sh "sed 's/{BUILD_NUMBER}/${env.BUILD_NUMBER}/g' app_deployment.yaml > app_deployment2.yaml"
+                        withCredentials([usernamePassword(credentialsId: 'myregistrykey2', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
+                            sh 'echo $PASSWORD | docker login -u $USERNAME --password-stdin localhost:5000'
+                            sh "${kubectlCmd} apply -f app_deployment2.yaml"
+                        }
                     }else{
                         echo "OS not supported"
                     }
