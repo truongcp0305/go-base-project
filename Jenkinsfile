@@ -81,10 +81,6 @@ pipeline {
                             bat "kubectl apply -f app_deployment2.yaml"
                         }
                     }else if (os == "Linux"){
-                        sh 'kubectl get nodes'
-                        sh 'kubectl get pods'
-                        sh 'kubectl get deploy'
-                        sh 'kubectl version'
                         def kubectlCmd = "kubectl --kubeconfig=${KUBECONFIG} --namespace=${NAMESPACE}"
                         sh "sed 's/{BUILD_NUMBER}/${env.BUILD_NUMBER}/g' app_deployment.yaml > app_deployment2.yaml"
                         withCredentials([usernamePassword(credentialsId: 'myregistrykey2', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
