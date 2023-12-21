@@ -21,8 +21,7 @@ pipeline {
         APP_NAME = 'go-base'
         PORT = '1234'
         PATH = "/usr/local/go/bin:$PATH"
-        KUBECONFIG = 'C:/Users/ASUS/.kube/config'
-        MINIKUBE_PROFILE = 'minikube'
+        KUBECONFIG = '~/.kube/config'
     }
 
     stages {
