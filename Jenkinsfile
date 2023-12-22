@@ -22,6 +22,7 @@ pipeline {
         PORT = '1234'
         PATH = "/usr/local/go/bin:$PATH"
         NAMESPACE ='kube-system'
+        REGISTRY = '192.168.49.2:32785'
     }
 
     stages {
@@ -56,10 +57,10 @@ pipeline {
                         sh 'echo $PATH'
                         sh 'go version'
                         sh "docker build -t ${APP_NAME} ."
-                        sh "docker tag ${APP_NAME} localhost:5000/${APP_NAME}:${env.BUILD_NUMBER}"
+                        sh "docker tag ${APP_NAME} ${REGISTRY}/${APP_NAME}:${env.BUILD_NUMBER}"
                         withCredentials([usernamePassword(credentialsId: 'myregistrykey', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]){
-                            sh 'echo $PASSWORD | docker login -u $USERNAME --password-stdin localhost:5000'
-                            sh "docker push localhost:5000/${APP_NAME}:${env.BUILD_NUMBER}"
+                            sh 'echo $PASSWORD | docker login -u $USERNAME --password-stdin 192.168.49.2:32785'
+                            sh "docker push ${REGISTRY}/${APP_NAME}:${env.BUILD_NUMBER}"
                         }
                     }else{
                         echo "OS not supported"
