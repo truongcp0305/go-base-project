@@ -56,10 +56,10 @@ pipeline {
                         sh 'echo $PATH'
                         sh 'go version'
                         sh "docker build -t ${APP_NAME} ."
-                        sh "docker tag ${APP_NAME} localhost:5000/${APP_NAME}:${env.BUILD_NUMBER}"
+                        sh "docker tag ${APP_NAME} 127.0.0.1:5000/${APP_NAME}:${env.BUILD_NUMBER}"
                         withCredentials([usernamePassword(credentialsId: 'myregistrykey', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]){
-                            sh 'echo $PASSWORD | docker login -u $USERNAME --password-stdin localhost:5000'
-                            sh "docker push localhost:5000/${APP_NAME}:${env.BUILD_NUMBER}"
+                            sh 'echo $PASSWORD | docker login -u $USERNAME --password-stdin 127.0.0.1:5000'
+                            sh "docker push 127.0.0.1:5000/${APP_NAME}:${env.BUILD_NUMBER}"
                         }
                     }else{
                         echo "OS not supported"
