@@ -88,7 +88,7 @@ pipeline {
                         }
                     }else if (os == "Linux"){
                         sh "sed 's/{BUILD_NUMBER}/${env.BUILD_NUMBER}/g' app_deployment.yaml > app_deployment2.yaml"
-                        sh 'eval $(minikube docker-env)'
+                        sh 'eval $(minikube -p minikube docker-env)'
                         withCredentials([usernamePassword(credentialsId: 'myregistrykey', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
                             sh 'echo $PASSWORD | docker login -u $USERNAME --password-stdin localhost:5000'
                         }
