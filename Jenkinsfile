@@ -59,6 +59,7 @@ pipeline {
                         //sh 'eval $(minikube docker-env)'
                         //sh "docker build -t ${APP_NAME} ."
                         sh "minikube image build -t ${APP_NAME}:${env.BUILD_NUMBER} ."
+                        sh "minikube image ls"
                         // sh "docker tag ${APP_NAME} ${APP_NAME}:${env.BUILD_NUMBER}"
                         // withCredentials([usernamePassword(credentialsId: 'myregistrykey', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]){
                         //     sh 'eval $(minikube docker-env)'
