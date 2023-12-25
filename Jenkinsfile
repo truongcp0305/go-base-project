@@ -55,17 +55,16 @@ pipeline {
                         bat "docker tag ${APP_NAME} localhost:5000/${APP_NAME}:${env.BUILD_NUMBER}"
                         bat "docker push localhost:5000/${APP_NAME}:${env.BUILD_NUMBER}"
                     }else if (os == 'Linux'){
-                        sh 'su -truong'
-                        sh '1'
+                        sh 'echo "1" | su - truong'
                         sh "docker build -t ${APP_NAME} ."
                         //sh "minikube image build -t ${APP_NAME}:${env.BUILD_NUMBER} . --push"
                         sh "docker tag ${APP_NAME} localhost:5000/${APP_NAME}:${env.BUILD_NUMBER}"
-                        sh 'docker images'
-                        withCredentials([usernamePassword(credentialsId: 'myregistrykey', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]){
-                            sh 'echo $PASSWORD | docker login -u $USERNAME --password-stdin localhost:5000'
-                            sh "docker push localhost:5000/${APP_NAME}:${env.BUILD_NUMBER}"
-                        }
-                        // sh "minikube image pull ${APP_NAME}"
+
+                        // withCredentials([usernamePassword(credentialsId: 'myregistrykey', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]){
+                        //     sh 'echo $PASSWORD | docker login -u $USERNAME --password-stdin localhost:5000'
+                        //     sh "docker push localhost:5000/${APP_NAME}:${env.BUILD_NUMBER}"
+                        // }
+                        sh "minikube image load localhost:5000/${APP_NAME}:${env.BUILD_NUMBER}"
                         // sh "minikube image ls"
                     }else{
                         echo "OS not supported"
