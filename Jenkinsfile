@@ -81,7 +81,7 @@ pipeline {
             }
         }
 
-        stage('Checkout') {
+        stage('Checkout2') {
             steps {
                 script {
                     git 'https://github.com/truongcp0305/go-base-project'
