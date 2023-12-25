@@ -56,6 +56,7 @@ pipeline {
                     }else if (os == 'Linux'){
                         sh 'echo $PATH'
                         sh 'go version'
+                        sh 'minikube ip'
                         //sh 'eval $(minikube docker-env)'
                         //sh "docker build -t ${APP_NAME} ."
                         sh "minikube image build -t ${APP_NAME}:${env.BUILD_NUMBER} . --push"
