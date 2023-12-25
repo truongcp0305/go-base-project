@@ -92,6 +92,7 @@ pipeline {
                         // withCredentials([usernamePassword(credentialsId: 'myregistrykey', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
                         //     sh 'echo $PASSWORD | docker login -u $USERNAME --password-stdin localhost:5000'
                         // }
+                        sh 'minikube cache list'
                         withCredentials([file(credentialsId: 'minikube', variable: 'KUBECONFIG')]) {
                             sh "kubectl --kubeconfig=${KUBECONFIG} --namespace=${NAMESPACE} apply -f app_deployment2.yaml"
                         }
