@@ -15,7 +15,6 @@ spec:
       containers:
       - name: go-base
         image: go-base:{BUILD_NUMBER}
-        imagePullPolicy: Never
         ports:
         - containerPort: 1234 
       imagePullSecrets:
