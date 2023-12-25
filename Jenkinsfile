@@ -64,7 +64,7 @@ pipeline {
                         //     sh 'echo $PASSWORD | docker login -u $USERNAME --password-stdin localhost:5000'
                         //     sh "docker push ${APP_NAME}:${env.BUILD_NUMBER}"
                         // }
-                        sh "minikube image pull ${APP_NAME}:${env.BUILD_NUMBER}"
+                        sh "minikube image load ${APP_NAME}:${env.BUILD_NUMBER}"
                         sh "minikube image ls"
                     }else{
                         echo "OS not supported"
