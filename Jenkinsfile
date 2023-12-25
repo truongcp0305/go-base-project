@@ -23,6 +23,7 @@ pipeline {
         PATH = "/usr/local/go/bin:$PATH"
         NAMESPACE ='default'
         REGISTRY = 'localhost:5000'
+        KUBECONFIG = "/.kube/config"
     }
 
     stages {
