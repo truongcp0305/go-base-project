@@ -26,14 +26,6 @@ pipeline {
     }
 
     stages {
-        stage ('switch to minikube'){
-            steps {
-                script {
-                    sh 'minikube ssh'
-                }
-            }
-        }
-
         stage('Checkout') {
             steps {
                 script {
