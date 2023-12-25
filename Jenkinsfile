@@ -64,19 +64,27 @@ pipeline {
                     }else if (os == 'Linux'){
                         sh 'echo $PATH'
                         sh 'go version'
-                        sh 'minikube stop'
                         //sh 'eval $(minikube docker-env)'
                         sh "docker build -t ${APP_NAME} ."
                         sh "docker tag ${APP_NAME} ${APP_NAME}:${env.BUILD_NUMBER}"
-                        // withCredentials([usernamePassword(credentialsId: 'myregistrykey', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]){
-                        //     sh 'eval $(minikube docker-env)'
-                        //     sh 'echo $PASSWORD | docker login -u $USERNAME --password-stdin localhost:5000'
-                        //     sh "docker push ${REGISTRY}/${APP_NAME}:${env.BUILD_NUMBER}"
-                        // }
-                        sh "minikube image load ${APP_NAME}:${env.BUILD_NUMBER} --daemon=true"
+                        withCredentials([usernamePassword(credentialsId: 'myregistrykey', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]){
+                            sh 'eval $(minikube docker-env)'
+                            sh 'echo $PASSWORD | docker login -u $USERNAME --password-stdin localhost:5000'
+                            sh "docker push ${REGISTRY}/${APP_NAME}:${env.BUILD_NUMBER}"
+                        }
+                        sh 'exit'
+                        //sh "minikube image load ${APP_NAME}:${env.BUILD_NUMBER} --daemon=true"
                     }else{
                         echo "OS not supported"
                     }
+                }
+            }
+        }
+
+        stage('Checkout') {
+            steps {
+                script {
+                    git 'https://github.com/truongcp0305/go-base-project'
                 }
             }
         }
@@ -101,7 +109,6 @@ pipeline {
                         // withCredentials([usernamePassword(credentialsId: 'myregistrykey', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
                         //     sh 'echo $PASSWORD | docker login -u $USERNAME --password-stdin localhost:5000'
                         // }
-                        sh 'minikube cache list'
                         withCredentials([file(credentialsId: 'minikube', variable: 'KUBECONFIG')]) {
                             sh "kubectl --kubeconfig=${KUBECONFIG} --namespace=${NAMESPACE} apply -f app_deployment2.yaml"
                         }
