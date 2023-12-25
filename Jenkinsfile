@@ -57,15 +57,15 @@ pipeline {
                         sh 'echo $PATH'
                         sh 'go version'
                         //sh 'eval $(minikube docker-env)'
-                        //sh "docker build -t ${APP_NAME} ."
-                        sh "minikube image build -t ${APP_NAME}:${env.BUILD_NUMBER} ."
-                        // sh "docker tag ${APP_NAME} ${APP_NAME}:${env.BUILD_NUMBER}"
-                        // withCredentials([usernamePassword(credentialsId: 'myregistrykey', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]){
-                        //     sh 'eval $(minikube docker-env)'
-                        //     sh 'echo $PASSWORD | docker login -u $USERNAME --password-stdin localhost:5000'
-                        //     sh "docker push ${REGISTRY}/${APP_NAME}:${env.BUILD_NUMBER}"
-                        // }
-                        sh "minikube image load ${APP_NAME}:${env.BUILD_NUMBER}"
+                        sh "docker build -t ${APP_NAME} ."
+                        //sh "minikube image build -t ${APP_NAME}:${env.BUILD_NUMBER} ."
+                        sh "docker tag ${APP_NAME} ${APP_NAME}:${env.BUILD_NUMBER}"
+                        withCredentials([usernamePassword(credentialsId: 'myregistrykey', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]){
+                            sh 'eval $(minikube docker-env)'
+                            sh 'echo $PASSWORD | docker login -u $USERNAME --password-stdin localhost:5000'
+                            sh "docker push ${REGISTRY}/${APP_NAME}:${env.BUILD_NUMBER}"
+                        }
+                        sh "minikube image pull ${APP_NAME}:${env.BUILD_NUMBER}"
                         sh "minikube image ls"
                     }else{
                         echo "OS not supported"
