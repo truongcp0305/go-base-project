@@ -94,8 +94,8 @@ pipeline {
                         // withCredentials([usernamePassword(credentialsId: 'myregistrykey', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
                         //     sh 'echo $PASSWORD | docker login -u $USERNAME --password-stdin localhost:5000'
                         // }
-                        withCredentials([file(credentialsId: 'minikube', variable: 'KUBECONFIG')]) {
-                            sh "kubectl --kubeconfig=${KUBECONFIG} --namespace=${NAMESPACE} apply -f app_deployment2.yaml"
+                        withCredentials([file(credentialsId: 'minikube', variable: 'CONFIG')]) {
+                            sh "kubectl --kubeconfig=${CONFIG} --namespace=${NAMESPACE} apply -f app_deployment2.yaml"
                         }
                     }else{
                         echo "OS not supported"
