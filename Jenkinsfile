@@ -54,8 +54,6 @@ pipeline {
                         bat "docker tag ${APP_NAME} localhost:5000/${APP_NAME}:${env.BUILD_NUMBER}"
                         bat "docker push localhost:5000/${APP_NAME}:${env.BUILD_NUMBER}"
                     }else if (os == 'Linux'){
-                        sh 'echo $PATH'
-                        sh 'go version'
                         sh 'minikube ip'
                         //sh 'eval $(minikube docker-env)'
                         sh "docker build -t ${APP_NAME} ."
