@@ -55,8 +55,6 @@ pipeline {
                         bat "docker tag ${APP_NAME} localhost:5000/${APP_NAME}:${env.BUILD_NUMBER}"
                         bat "docker push localhost:5000/${APP_NAME}:${env.BUILD_NUMBER}"
                     }else if (os == 'Linux'){
-                        sh 'echo 1 | sudo -S su - truong'
-                        sh 'whoami'
                         sh "docker build -t ${APP_NAME} ."
                         //sh "minikube image build -t ${APP_NAME}:${env.BUILD_NUMBER} . --push"
                         sh "docker tag ${APP_NAME} localhost:5000/${APP_NAME}:${env.BUILD_NUMBER}"
